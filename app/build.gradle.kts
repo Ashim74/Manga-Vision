@@ -1,9 +1,13 @@
+import de.undercouch.gradle.tasks.download.Download
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.hilt)
     alias(libs.plugins.ksp)
+    id("kotlin-parcelize")
+    id("de.undercouch.download") version "5.6.0"
 }
 
 android {
@@ -39,6 +43,21 @@ android {
     buildFeatures {
         compose = true
     }
+    androidResources{
+        noCompress.add("tflite")
+    }
+
+    val assetDir = layout.projectDirectory.dir("src/main/assets")
+
+    tasks.register<Download>("downloadModelFile") {
+        src("https://storage.googleapis.com/mediapipe-models/face_detector/blaze_face_short_range/float16/1/blaze_face_short_range.tflite")
+        dest(assetDir.file("face_detection_short_range.tflite").asFile)
+        overwrite(false)
+    }
+
+    tasks.named("preBuild") {
+        dependsOn("downloadModelFile")
+    }
 }
 
 dependencies {
@@ -72,6 +91,23 @@ dependencies {
 
     implementation(libs.androidx.room.runtime)
     implementation(libs.androidx.room.ktx)
+    implementation(libs.androidx.room.paging)
     ksp(libs.androidx.room.compiler)
+    implementation(libs.androidx.datastore.preferences)
+
+
+//    implementation(libs.androidx.navigation.compose)
+
+    implementation(libs.androidx.material.icons.extended)
+
+    implementation(libs.androidx.paging.runtime.ktx)
+    implementation(libs.androidx.paging.compose)
+
+    implementation(libs.tasks.vision)
+
+    implementation("androidx.camera:camera-core:1.4.2")
+    implementation("androidx.camera:camera-camera2:1.4.2")
+    implementation("androidx.camera:camera-lifecycle:1.4.2")
+    implementation("androidx.camera:camera-view:1.4.2")
 
 }
