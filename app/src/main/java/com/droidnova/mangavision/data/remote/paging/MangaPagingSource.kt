@@ -25,7 +25,7 @@ class MangaPagingSource(
             val response = api.fetchManga(page)
             val manga = response.data.map { it.toDomain() }
 
-            if (page == 1 || page == 2) {
+            if (page == 1 ) {
                 val mangaEntities = response.data.map { it.toEntity() }
                 withContext(Dispatchers.IO) {
                     dao.clearAll()

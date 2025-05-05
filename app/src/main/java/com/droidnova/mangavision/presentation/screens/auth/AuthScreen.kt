@@ -65,7 +65,6 @@ fun AuthScreenContent(
             .padding(24.dp),
         verticalArrangement = Arrangement.Center
     ) {
-        // Title
         Text(
             text = "Welcome Back",
             style = MaterialTheme.typography.headlineMedium.copy(
@@ -73,7 +72,6 @@ fun AuthScreenContent(
             )
         )
 
-        // Subtitle / Description
         Text(
             text = "Please enter your credentials to sign in",
             style = MaterialTheme.typography.bodyMedium.copy(
@@ -83,7 +81,6 @@ fun AuthScreenContent(
                 .padding(top = 4.dp, bottom = 24.dp)
         )
 
-        // Email field
         OutlinedTextField(
             value = state.email,
             onValueChange = { onEvent(AuthEvent.OnEmailChange(it)) },
@@ -94,7 +91,6 @@ fun AuthScreenContent(
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        // Password field with toggle
         PasswordTextField(
             password = state.password,
             onPasswordChange = { onEvent(AuthEvent.OnPasswordChange(it)) },
@@ -104,7 +100,6 @@ fun AuthScreenContent(
 
         Spacer(modifier = Modifier.height(32.dp))
 
-        // Login button
         Button(
             onClick = { onEvent(AuthEvent.OnLoginClick) },
             modifier = Modifier

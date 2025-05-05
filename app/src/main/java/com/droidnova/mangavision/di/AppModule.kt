@@ -47,7 +47,7 @@ object AppModule {
             .client(
                 OkHttpClient.Builder().addInterceptor { chain ->
                     val request = chain.request().newBuilder()
-                        .addHeader("x-rapidapi-key", "60a91c8271msh922325aa5f20616p1bf408jsn130c4195b1fb")
+                        .addHeader("x-rapidapi-key", "1acb0c1251msh8da1f51b43ce538p1dceb8jsn73851971253f")
                         .addHeader("x-tpi-host", "mangaverse-api.p.rapidapi.com")
                         .build()
                     chain.proceed(request)
