@@ -4,34 +4,41 @@
 
 ---
 
+## 📦 Download
+
+▶️ [Download Debug APK](https://drive.google.com/file/d/1hiRwhs_oCxvZbWGu1niXG9DvkHVjytQC/view?usp=sharing)
+
+---
+
+## 🎥 Demo Video
+
+[![Watch Demo](https://user-images.githubusercontent.com/70607b2b7/demo-thumbnail.jpg)](https://drive.google.com/file/d/1Gy0LiONp9WwHAcr7Q2ynQDqqIS4JidWy/view?usp=sharing)
+
+---
+
 ## 🎯 App Functionality
 
 ### 🔐 Authentication Screen  
 - Secure RoomDB-based local login  
 - Offline-first user management  
-![Auth Screen](https://your-image-link.com/auth.png)
+![Auth Screen](screenshots/AuthScreen.jpg)
 
 ### 📖 Manga Screen (Home)  
 - Paginated manga list via **Paging 3**  
 - Works **offline** (page 1 data + images cached)  
 - Displays thumbnail, title, status, and chapters  
-![Home Screen](https://your-image-link.com/home.png)
+![Home Screen](screenshots/Manga_Screen.jpg)
 
 ### 👤 Face Detection Screen  
 - Uses **front camera** with **MediaPipe** for live face tracking  
 - Green box when face detected inside target area  
 - Integrated into bottom navigation  
-![Face Detection](https://your-image-link.com/face.png)
+![Face Detection](screenshots/Face_Detection_Screen.jpg)
 
 ### 📄 Manga Detail Screen  
 - Shows full summary, image, and metadata  
 - Opens from the home screen on tap  
-![Detail Screen](https://your-image-link.com/detail.png)
-
----
-
-## 🎥 Demo Video  
-▶ [Watch App Demo](https://your-video-link.com/demo.mp4)
+![Detail Screen](screenshots/MangaDetailScreen.jpg)
 
 ---
 
