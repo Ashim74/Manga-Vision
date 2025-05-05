@@ -35,10 +35,6 @@ class AuthViewModel @Inject constructor(
             AuthEvent.OnLoginClick -> {
                 login(state.email, state.password)
             }
-
-            AuthEvent.OnLogout -> {
-                logout()
-            }
         }
     }
 
@@ -54,7 +50,7 @@ class AuthViewModel @Inject constructor(
         }
     }
 
-    private fun logout(){
+    fun logout(){
         viewModelScope.launch {
             authUseCases.logout()
             state = state.copy(status = AuthStatus.Unauthenticated)

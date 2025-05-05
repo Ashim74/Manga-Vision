@@ -25,16 +25,13 @@ class MangaPagingSource(
             val response = api.fetchManga(page)
             val manga = response.data.map { it.toDomain() }
 
-//            if (page == 1) {
-//                val mangaEntities = response.data.map { it.toEntity() }
-//                withContext(Dispatchers.IO) {
-//                    dao.clearAll()
-//                    mangaEntities.forEach { dto ->
-//                        preloadImageToCache(dto.thumb, context)
-//                    }
-//                    dao.insertAll(mangaEntities)
-//                }
-//            }
+            if (page == 1 || page == 2) {
+                val mangaEntities = response.data.map { it.toEntity() }
+                withContext(Dispatchers.IO) {
+                    dao.clearAll()
+                    dao.insertAll(mangaEntities)
+                }
+            }
 
             LoadResult.Page(
                 data = manga,

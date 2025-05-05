@@ -110,17 +110,12 @@ fun AuthScreenContent(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(50.dp),
-            enabled = state.status != AuthStatus.Loading
+            enabled = state.email.isNotEmpty() && state.password.isNotEmpty()
         ) {
-            if (state.status == AuthStatus.Loading) {
-                CircularProgressIndicator(
-                    modifier = Modifier.size(20.dp),
-                    strokeWidth = 2.dp,
-                    color = MaterialTheme.colorScheme.onPrimary
-                )
-            } else {
-                Text("Sign In", style = MaterialTheme.typography.labelLarge)
-            }
+            Text("Sign In", style = MaterialTheme.typography.titleMedium.copy(
+                fontWeight = FontWeight.ExtraBold
+            ))
+
         }
     }
 }
@@ -154,7 +149,7 @@ fun PasswordTextField(
         },
         isError = isError,
         supportingText = {
-            if (isError && errorMessage?.contains("password", ignoreCase = true) == true)
+            if (isError && errorMessage!=null )
                 Text(errorMessage, style = MaterialTheme.typography.bodySmall)
         },
         modifier = Modifier.fillMaxWidth()
