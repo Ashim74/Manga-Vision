@@ -44,9 +44,10 @@ class FaceViewModel @Inject constructor(
 
                 val boxConfig = defaultDetectionBoxConfig
                 faceDetectorHelper = FaceDetectorHelper(context) { detections, width, height ->
-                    val isInside = detections.all {
+                    val isInside = detections.isNotEmpty() && detections.all {
                         isFaceFullyInBox(it, width, height, boxConfig)
                     }
+
                     faceUiState = faceUiState.copy(isFaceInRectState = isInside)
                 }
 

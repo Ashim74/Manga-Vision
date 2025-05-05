@@ -21,6 +21,7 @@ retrofit = "2.9.0"
 roomPaging = "2.7.1"
 roomRuntime = "2.7.1"
 tasksVision = "latest.release"
+uiTextGoogleFonts = "1.8.0"
 
 
 [libraries]
@@ -57,6 +58,7 @@ androidx-hilt-navigation-compose = { module = "androidx.hilt:hilt-navigation-com
 androidx-navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "navigationCompose" }
 retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
 tasks-vision = { module = "com.google.mediapipe:tasks-vision", version.ref = "tasksVision" }
+androidx-ui-text-google-fonts = { group = "androidx.compose.ui", name = "ui-text-google-fonts", version.ref = "uiTextGoogleFonts" }
 
 
 

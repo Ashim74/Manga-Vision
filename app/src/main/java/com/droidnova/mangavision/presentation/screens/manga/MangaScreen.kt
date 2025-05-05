@@ -1,10 +1,12 @@
 package com.droidnova.mangavision.presentation.screens.manga
 
+import android.content.Context
 import android.util.Log
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
@@ -21,75 +23,96 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
 import coil.compose.AsyncImage
+import coil.request.CachePolicy
+import coil.request.ImageRequest
 import com.droidnova.mangavision.domain.data.Manga
 
 @Composable
 fun MangaScreen(
     viewModel: MangaViewModel = hiltViewModel(),
-    onItemClick: (Manga) -> Unit = {}
+    onItemClick: (Manga) -> Unit ,
+    onSignOut: ()->Unit
 ) {
     val mangaItems = viewModel.mangaPagingFlow.collectAsLazyPagingItems()
+    val context = LocalContext.current
     Log.e("myTag", "MangaScreen: ${mangaItems.itemSnapshotList}")
-
-    LazyVerticalGrid(
-        columns = GridCells.Fixed(3),
-        contentPadding = PaddingValues(8.dp),
-        verticalArrangement = Arrangement.spacedBy(8.dp),
-        horizontalArrangement = Arrangement.spacedBy(8.dp)
+    Column(
+        modifier = Modifier.fillMaxWidth()
     ) {
-        items(mangaItems.itemCount) { index ->
-            mangaItems[index]?.let { manga ->
-                MangaGridItem(manga = manga) { onItemClick(manga) }
-            }
+        TextButton(
+            onClick = onSignOut,
+            modifier = Modifier.align(Alignment.End)
+        ) {
+            Text("Sign Out")
         }
 
-        mangaItems.apply {
-            when {
-                loadState.refresh is LoadState.Loading ||
-                        loadState.append is LoadState.Loading -> {
-                    item(span = { GridItemSpan(3) }) {
-                        Box(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(16.dp),
-                            contentAlignment = Alignment.Center
-                        ) {
-                            CircularProgressIndicator()
+
+
+        LazyVerticalGrid(
+            columns = GridCells.Fixed(3),
+            contentPadding = PaddingValues(8.dp),
+            verticalArrangement = Arrangement.spacedBy(8.dp),
+            horizontalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            items(mangaItems.itemCount) { index ->
+                mangaItems[index]?.let { manga ->
+                    MangaGridItem(context = context,manga = manga) { onItemClick(manga) }
+                }
+            }
+
+            mangaItems.apply {
+                when {
+                    loadState.refresh is LoadState.Loading ||
+                            loadState.append is LoadState.Loading -> {
+                        item(span = { GridItemSpan(3) }) {
+                            Box(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(16.dp),
+                                contentAlignment = Alignment.Center
+                            ) {
+                                CircularProgressIndicator()
+                            }
                         }
                     }
-                }
 
-                loadState.append is LoadState.Error -> {
-                    item(span = { GridItemSpan(3) }) {
-                        Box(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(16.dp),
-                            contentAlignment = Alignment.Center
-                        ) {
-                            Text("Error loading more", color = Color.Red)
+                    loadState.append is LoadState.Error -> {
+                        item(span = { GridItemSpan(3) }) {
+                            Box(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(16.dp),
+                                contentAlignment = Alignment.Center
+                            ) {
+                                Text("Error loading more", color = Color.Red)
+                            }
                         }
                     }
                 }
             }
+
         }
 
     }
+
+
 }
 
 
 @Composable
-fun MangaGridItem(manga: Manga, onClick: () -> Unit) {
+fun MangaGridItem(context: Context, manga: Manga, onClick: () -> Unit) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -99,7 +122,10 @@ fun MangaGridItem(manga: Manga, onClick: () -> Unit) {
         elevation = CardDefaults.cardElevation(4.dp)
     ) {
         AsyncImage(
-            model = manga.thumb,
+            model = ImageRequest.Builder(context)
+                .data(manga.thumb)
+                .diskCachePolicy(CachePolicy.ENABLED)
+                .build(),
             contentDescription = manga.title,
             contentScale = ContentScale.Crop,
             modifier = Modifier.fillMaxSize()
